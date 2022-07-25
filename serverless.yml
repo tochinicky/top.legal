@@ -1,0 +1,74 @@
+service: serverless-rest-api-with-dynamodb
+
+provider:
+  name: aws
+  stage: dev
+  region: local
+  runtime: nodejs16.x
+  environment:
+       DYNAMODB_TABLE: Contractmanagement,
+       USERS_TABLE: Users
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+custom:
+  # serverless-offline:
+  #   noPrependStageInUrl: false
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true # create tables on start  
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http:
+          method: ANY
+          path: '/'
+      - http:
+          method: ANY
+          path: '/{proxy+}'
+resources:
+  Resources:
+    ContractManagementDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Contractmanagement
+        AttributeDefinitions:
+          -
+            AttributeName: ContractID
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: "ContractID"
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    UsersDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Users
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: "email"
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        
