@@ -3,6 +3,7 @@ const serverless = require('serverless-http');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const contractRoute = require('./route/contract.route');
+const userRoute = require('./route/user.route');
 
 
 
@@ -28,6 +29,7 @@ const app = express();
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use(express.json());
 app.use('/contract', contractRoute);
+app.use('/user', userRoute);
 app.listen(3000, ()=>{
     console.log('Server running at http://localhost:3000');
 });
