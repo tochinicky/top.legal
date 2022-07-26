@@ -24,12 +24,7 @@ const options = {
                 bearerFormat: "JWT"
               },
             }
-          }
-          ,
-        //   security: [{
-        //     jwt: []
-        //   }],
-        
+          },
 		servers: [
 			{
 				url: "http://localhost:3000",

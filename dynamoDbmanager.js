@@ -2,15 +2,7 @@
   'use strict'
 
 const { DynamoDB } = require("aws-sdk")
-
-  // module.exports.connect = ()=>{
-  //   return new DynamoDB.DocumentClient({
-  //       region: 'localhost',
-  //       endpoint: 'http://localhost:8000',
-  //       accessKeyId: 'fakeMyKeyId',
-  //       secretAccessKey: 'fakeSecretAccessKey'
-  //     })
-  // }
+//dev purpose only
   let options = {
     region: 'localhost',
         endpoint: 'http://localhost:8000',

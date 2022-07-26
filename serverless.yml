@@ -6,8 +6,8 @@ provider:
   region: local
   runtime: nodejs16.x
   environment:
-       DYNAMODB_TABLE: Contractmanagement,
-       USERS_TABLE: Users
+       DYNAMODB_TABLE: ${env:DYNAMODB_TABLE} # contract management table env,
+       USERS_TABLE: ${env:USERS_TABLE} #Users
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -20,8 +20,6 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
 custom:
-  # serverless-offline:
-  #   noPrependStageInUrl: false
   dynamodb:
     stages:
       - ${self:provider.stage}
@@ -44,7 +42,7 @@ resources:
     ContractManagementDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Contractmanagement
+        TableName: ${env:DYNAMODB_TABLE} # contract management table
         AttributeDefinitions:
           -
             AttributeName: ContractID
@@ -59,7 +57,7 @@ resources:
     UsersDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Users
+        TableName: ${env:USERS_TABLE}  # users table
         AttributeDefinitions:
           -
             AttributeName: email
