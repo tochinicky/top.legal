@@ -1,7 +1,8 @@
 const uuid = require('uuid').v4;
-
+const dotenv = require('dotenv');
+dotenv.config();
 const db  = require('../dynamoDbmanager');
-
+const auth = require('.././middleware/auth')
 const getContract = async(req,res) => {
     const {id} = req.query;
     try {
@@ -17,11 +18,19 @@ const getContract = async(req,res) => {
           return res.status(500).json(error);
       }
 }
-const createContract = async (req,res) => {
+const createContract =  async(req,res) => {
     try {
         if(!req.body) return res.json({message:'request body is required'})
         const {userID,contractName,templateID} = req.body;
 
+        const getId = {
+            TableName: process.env.USERS_TABLE,
+            Key: {email:req.userData.email}
+    
+        }
+        const validateUserid = await db.dynamodb.get(getId);
+        if(userID !== req.userData.userID) return res.status(400).json({message: 'Invalid user ID'});
+        if(validateUserid === undefined) return res.status(400).json({message:'user not found with id "' + userID + '"'});
         const contract = {
             ContractID: uuid(),
             userID,

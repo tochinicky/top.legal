@@ -7,6 +7,7 @@ const{
 const morgan = require('morgan');
 const contractRoute = express.Router();
 contractRoute.use(morgan('combined'));
+const auth = require('.././middleware/auth')
 
 
 
@@ -31,7 +32,7 @@ contractRoute.use(morgan('combined'));
  *           type: string
  *           description: template id
  *       example:
- *         userID: d5fE_asz
+ *         userID: 2025a25e-d3c8-4ec9-8d65-c1fdc67c36ca
  *         contractName: The New Turing Omnibus
  *         templateID: templateID1234
  */
@@ -48,6 +49,7 @@ contractRoute.use(morgan('combined'));
  * /contract/getContractIDs:
  *   get:
  *     summary: Returns the list of all the contracts
+ *     security: [{ jwt: []}]
  *     tags: [Contract]
  *     responses:
  *       200:
@@ -59,12 +61,13 @@ contractRoute.use(morgan('combined'));
  *               items:
  *                 $ref: '#/components/schemas/Contract'
  */
-contractRoute.route('/getContractIDs').get(getContractIDs);
+contractRoute.route('/getContractIDs').all(auth).get(getContractIDs);
 /**
  * @swagger
  * /contract/getContract:
  *   get:
- *     summary: Get the contract by id
+ *     summary: Get the contract by contractid
+ *     security: [{ jwt: []}]
  *     tags: [Contract]
  *     parameters:
  *       - in: query
@@ -83,12 +86,13 @@ contractRoute.route('/getContractIDs').get(getContractIDs);
  *       404:
  *         description: The contract was not found
  */
-contractRoute.route('/getContract').get(getContract);
+contractRoute.route('/getContract').all(auth).get(getContract);
 /**
  * @swagger
  * /contract/createContract:
  *   post:
  *     summary: Create a new contract
+ *     security: [{ jwt: []}]
  *     tags: [Contract]
  *     requestBody:
  *       required: true
@@ -106,7 +110,7 @@ contractRoute.route('/getContract').get(getContract);
  *       500:
  *         description: Some server error
  */
-contractRoute.route('/createContract')
+contractRoute.route('/createContract').all(auth)
 .post(createContract);
 
 

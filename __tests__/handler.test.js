@@ -1,14 +1,16 @@
 
 const dynamodb = require('../dynamoDbmanager')
 const uuid= require('uuid').v4;
+const dotenv = require('dotenv');
+dotenv.config();
 
 test('dynamodb as an object', () => {
     expect(typeof dynamodb.dynamodb).toBe('object');
 })
 test('dynamodb has create,getContract and getContractIDs', () => {
     expect(typeof dynamodb.dynamodb.create).toBe('function');
-    expect(typeof dynamodb.dynamodb.getContract).toBe('function');
-    expect(typeof dynamodb.dynamodb.getContractIDs).toBe('function');
+    expect(typeof dynamodb.dynamodb.get).toBe('function');
+    expect(typeof dynamodb.dynamodb.list).toBe('function');
 })
 const params = {
 	userID:"123456765",
@@ -20,7 +22,11 @@ let array = [params];
 test('dynamodb write works', async () => {
     expect.assertions(1);
     try {
-        const res = await dynamodb.dynamodb.create(params);
+        const data ={
+            TableName: process.env.DYNAMODB_TABLE,
+            Item: params
+          }
+        const res = await dynamodb.dynamodb.create(data);
         expect(res).toStrictEqual({});
     } catch (error) {
         console.log('error from dynamodb',error)
@@ -30,7 +36,7 @@ test('dynamodb write works', async () => {
 test('dynamodb get works', async () => {
     expect.assertions(1);
     try {
-        const res = await dynamodb.dynamodb.getContract(params.ContractID);
+        const res = await dynamodb.dynamodb.get(params.ContractID);
         
         expect(typeof res).toBe('object');
     } catch (error) {
@@ -41,7 +47,10 @@ test('dynamodb get works', async () => {
 test('dynamodb get list works', async () => {
     expect.assertions(1);
     try {
-        const res = await dynamodb.dynamodb.getContractIDs();
+        const data ={
+            TableName: process.env.DYNAMODB_TABLE
+          }
+        const res = await dynamodb.dynamodb.list(data);
         expect(res).toEqual(array);
     } catch (error) {
         console.log('error from dynamodb',error)
