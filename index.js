@@ -5,8 +5,6 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const contractRoute = require('./route/contract.route');
 const userRoute = require('./route/user.route');
 const bodyParser = require("body-parser");
-const dotenv = require('dotenv');
-dotenv.config();
 const options = {
 	definition: {
 		openapi: "3.0.0",
@@ -43,8 +41,8 @@ app.use(express.json());
 app.use('/user', userRoute);
 app.use('/contract', contractRoute);
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`Server running at PORT ${process.env.PORT}`);
+app.listen(3000, ()=>{
+    console.log("Server running at http://localhost:3000");
 });
 
 module.exports.handler = serverless(app);
