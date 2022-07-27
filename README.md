@@ -41,7 +41,6 @@ Contract Management API is a HTTP REST API built for the Contract Management pla
     CONTRACT_TABLE = <CONTRACT_TABLE> //use any table name
     USERS_TABLE = <USERS_TABLE> // use any table name
     JWT_KEY = <JWT_KEY> //use a secret key
-    PORT= <PORT>
 ```
 - Install dependencies:
 
