@@ -1,5 +1,6 @@
 service: serverless-rest-api-with-dynamodb
 
+useDotenv: true
 provider:
   name: aws
   stage: dev
@@ -19,6 +20,7 @@ provider:
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-dotenv-plugin
 custom:
   dynamodb:
     stages:
