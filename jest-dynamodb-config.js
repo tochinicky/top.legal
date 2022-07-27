@@ -3,7 +3,7 @@ dotenv.config();
 module.exports = {
     tables:[
         {
-            TableName: process.env.DYNAMODB_TABLE,
+            TableName: process.env.CONTRACT_TABLE,
             AttributeDefinitions: [
             {
                 AttributeName: 'ContractID',

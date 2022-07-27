@@ -7,7 +7,7 @@ const getContract = async(req,res) => {
     const {id} = req.query;
     try {
         const data = {
-            TableName: process.env.DYNAMODB_TABLE,
+            TableName: process.env.CONTRACT_TABLE,
             Key: {ContractID:id}
     
         }
@@ -38,7 +38,7 @@ const createContract =  async(req,res) => {
             templateID
         }
         const data ={
-            TableName: process.env.DYNAMODB_TABLE,
+            TableName: process.env.CONTRACT_TABLE,
             Item: contract
           }
         await db.dynamodb.create(data);
@@ -51,7 +51,7 @@ const createContract =  async(req,res) => {
 
 const getContractIDs = async (req, res) => {
     try {
-        const results  = await db.dynamodb.list(process.env.DYNAMODB_TABLE);
+        const results  = await db.dynamodb.list(process.env.CONTRACT_TABLE);
        return res.json(results);
     } catch (error) {
         return res.status(500).json({error:error.message});

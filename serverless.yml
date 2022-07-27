@@ -7,7 +7,7 @@ provider:
   region: local
   runtime: nodejs16.x
   environment:
-       DYNAMODB_TABLE: ${env:DYNAMODB_TABLE} # contract management table env,
+       CONTRACT_TABLE: ${env:CONTRACT_TABLE} # contract management table env,
        USERS_TABLE: ${env:USERS_TABLE} #Users
   iamRoleStatements:
     - Effect: Allow
@@ -16,7 +16,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.CONTRACT_TABLE}"
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
@@ -44,7 +44,7 @@ resources:
     ContractManagementDynamoDbTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${env:DYNAMODB_TABLE} # contract management table
+        TableName: ${env:CONTRACT_TABLE} # contract management table
         AttributeDefinitions:
           -
             AttributeName: ContractID

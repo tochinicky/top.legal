@@ -23,7 +23,7 @@ test('dynamodb write works', async () => {
     expect.assertions(1);
     try {
         const data ={
-            TableName: process.env.DYNAMODB_TABLE,
+            TableName: process.env.CONTRACT_TABLE,
             Item: params
           }
         const res = await dynamodb.dynamodb.create(data);
@@ -48,7 +48,7 @@ test('dynamodb get list works', async () => {
     expect.assertions(1);
     try {
         const data ={
-            TableName: process.env.DYNAMODB_TABLE
+            TableName: process.env.CONTRACT_TABLE
           }
         const res = await dynamodb.dynamodb.list(data);
         expect(res).toEqual(array);
